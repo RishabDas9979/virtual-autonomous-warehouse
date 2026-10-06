@@ -75,3 +75,32 @@ virtual-autonomous-warehouse/
 
 - Rishab Das
 - Divyanshu Majhi
+
+## How to run
+
+Use two terminals.
+
+Build (first time, and after changing code):
+
+```bash
+cd ~/virtual-autonomous-warehouse
+colcon build
+```
+
+Terminal 1: start the simulator (leave it running, wait about 10 seconds for all 5 robots)
+
+```bash
+cd ~/virtual-autonomous-warehouse
+source install/setup.bash
+ros2 launch warehouse_bringup warehouse_fleet.launch.py
+```
+
+Terminal 2: keyboard control (open a new terminal after the robots appear)
+
+```bash
+cd ~/virtual-autonomous-warehouse
+source install/setup.bash
+python3 scripts/fleet_teleop.py
+```
+
+Keys: `1`-`5` select robot, `w`/`s` forward/back, `a`/`d` turn, `x` stop selected robot, Space stops all, `q` quits.
