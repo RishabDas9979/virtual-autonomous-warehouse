@@ -1,0 +1,57 @@
+# World-frame coordinates in metres. Robots follow this graph, so they never
+# cut through shelves, crates or pallets.
+orderable:   # names an order may use as pickup or drop-off
+  - loading_dock
+  - shipping_dock
+  - packing_1
+  - packing_2
+  - sorting_zone
+
+nodes:
+  lane_1: [-3.0, -4.5]
+  lane_2: [-1.5, -4.5]
+  lane_3: [0.0, -4.5]
+  lane_4: [1.5, -4.5]
+  lane_5: [3.0, -4.5]
+  lane_east: [7.6, -4.5]
+  packing_1: [7.6, -2.0]
+  east_mid: [7.6, 0.0]
+  packing_2: [7.6, 2.0]
+  east_north: [7.6, 5.0]
+  loading_dock: [7.0, -6.2]
+  shipping_dock: [7.0, 6.2]
+  sorting_zone: [4.0, 1.9]
+  parking_1: [-3.0, -7.0]
+  parking_2: [-1.5, -7.0]
+  parking_3: [0.0, -7.0]
+  parking_4: [1.5, -7.0]
+  parking_5: [3.0, -7.0]
+  charger_1: [-3.0, -8.5]
+  charger_2: [-1.5, -8.5]
+  charger_3: [0.0, -8.5]
+  charger_4: [1.5, -8.5]
+  charger_5: [3.0, -8.5]
+
+edges:
+  - [lane_1, lane_2]
+  - [lane_2, lane_3]
+  - [lane_3, lane_4]
+  - [lane_4, lane_5]
+  - [lane_5, lane_east]
+  - [lane_east, loading_dock]
+  - [lane_east, packing_1]
+  - [packing_1, east_mid]
+  - [east_mid, packing_2]
+  - [packing_2, east_north]
+  - [east_north, shipping_dock]
+  - [packing_2, sorting_zone]
+  - [lane_1, parking_1]
+  - [lane_2, parking_2]
+  - [lane_3, parking_3]
+  - [lane_4, parking_4]
+  - [lane_5, parking_5]
+  - [parking_1, charger_1]
+  - [parking_2, charger_2]
+  - [parking_3, charger_3]
+  - [parking_4, charger_4]
+  - [parking_5, charger_5]
