@@ -31,7 +31,8 @@ def generate_launch_description():
         PythonLaunchDescriptionSource(gz_sim),
         launch_arguments={'gz_args': '-r ' + world}.items())]
 
-    bridge_args = []
+    bridge_args = ['/clock@rosgraph_msgs/msg/Clock[gz.msgs.Clock']
+    remaps = []
     for i, (name, x, y) in enumerate(ROBOTS):
         path = '/tmp/warehouse_' + name + '.sdf'
         with open(path, 'w') as f:
@@ -42,7 +43,10 @@ def generate_launch_description():
                        '-x', str(x), '-y', str(y), '-z', '0.05', '-Y', '1.5708'])]))
         bridge_args.append('/' + name + '/cmd_vel@geometry_msgs/msg/Twist]gz.msgs.Twist')
         bridge_args.append('/' + name + '/odom@nav_msgs/msg/Odometry[gz.msgs.Odometry')
+        bridge_args.append('/' + name + '/scan@sensor_msgs/msg/LaserScan[gz.msgs.LaserScan')
+        bridge_args.append('/' + name + '/tf@tf2_msgs/msg/TFMessage[gz.msgs.Pose_V')
+        remaps.append(('/' + name + '/tf', '/tf'))
 
     actions.append(Node(package='ros_gz_bridge', executable='parameter_bridge',
-                        arguments=bridge_args, output='screen'))
+                        arguments=bridge_args, remappings=remaps, output='screen'))
     return LaunchDescription(actions)
