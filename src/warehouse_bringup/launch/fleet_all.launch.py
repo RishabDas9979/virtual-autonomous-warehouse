@@ -13,10 +13,12 @@ def generate_launch_description():
     control = IncludeLaunchDescription(
         PythonLaunchDescriptionSource(os.path.join(share, 'launch', 'fleet_control.launch.py')),
         launch_arguments={'start_battery': LaunchConfiguration('start_battery'),
-                          'speedup': LaunchConfiguration('speedup')}.items())
+                          'speedup': LaunchConfiguration('speedup'),
+                          'aging_sec': LaunchConfiguration('aging_sec')}.items())
     return LaunchDescription([
         DeclareLaunchArgument('start_battery', default_value='1.0'),
         DeclareLaunchArgument('speedup', default_value='1.0'),
+        DeclareLaunchArgument('aging_sec', default_value='60.0'),
         sim,
         TimerAction(period=15.0, actions=[control]),
     ])

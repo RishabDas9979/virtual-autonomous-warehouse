@@ -72,6 +72,8 @@ class Manager(Node):
         self.create_subscription(Order, '/orders', self.on_order, 10)
         self.create_service(SetPriority, '/set_priority', self.on_set_priority)
         self.last_t = self.now()
+        self.n_done = 0
+        self.n_late = 0
         self.create_timer(0.1, self.tick)
         self.create_timer(1.0, self.publish_status)
         self.create_timer(10.0, self.summary)
@@ -178,6 +180,8 @@ class Manager(Node):
         elif r.state == TO_DROPOFF and o and place == o.dropoff:
             self.queue.complete(o.id, now)
             late = ' LATE' if now > o.deadline else ''
+            self.n_done += 1
+            self.n_late += 1 if late else 0
             self.get_logger().info('%s delivered order #%d in %.0f s%s'
                                    % (name, o.id, now - o.submitted, late))
             r.order = None
@@ -257,6 +261,10 @@ class Manager(Node):
 
     def summary(self):
         recs = list(self.queue.orders.values())
+        if self.n_done:
+            ok = self.n_done - self.n_late
+            self.get_logger().info('on time: %d of %d delivered (%.0f%%)'
+                                   % (ok, self.n_done, 100.0 * ok / self.n_done))
         self.get_logger().info('orders: %d waiting, %d active, %d delivered' % (
             sum(o.status == PENDING for o in recs),
             sum(o.status == ACTIVE for o in recs),
