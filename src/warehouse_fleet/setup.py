@@ -25,6 +25,9 @@ setup(
     entry_points={
         'console_scripts': [
             'driver = warehouse_fleet.driver:main',
+            'manager = warehouse_fleet.manager:main',
+            'monitor = warehouse_fleet.monitor:main',
+            'gz_labels = warehouse_fleet.gz_labels:main',
         ],
     },
 )
